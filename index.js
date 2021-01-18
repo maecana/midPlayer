@@ -30,10 +30,63 @@ class Player {
     }
 }
 
-// create player instance
-let player = new Player(100, 100, 30, 'white');
+// Create a Projectile class
+class Projectile {
+    constructor(x, y, radius, color, velocity) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.velocity = velocity;
+    }
 
+    // draw the projectile as a circle
+    // set params as properties of circle
+    draw() {
+        c.beginPath();
+        c.arc(this.x, this.y, this.radius,
+            0, Math.PI * 2, false);
+        c.fillStyle = this.color;
+        c.fill();
+    }
+
+    update() {
+        this.x = this.x + this.velocity.x;
+        this.y = this.y + this.velocity.y;
+    }
+}
+
+const x = canvas.width / 2;
+const y = canvas.height / 2;
+
+// create player instance
+let player = new Player(x, y, 30, 'white');
 // invoke draw function
 player.draw();
 
-console.log(player);
+const projectile = new Projectile(
+    canvas.width / 2,
+    canvas.height / 2,
+    5, 'red',
+    {
+        x: 1,
+        y: 1,
+    }
+);
+
+// create looping animation
+function animate() {
+    requestAnimationFrame(animate);
+    projectile.draw();
+    projectile.update();
+    console.log('go');
+}
+
+// detect click event on the window
+addEventListener('click', (e) => {
+    console.log(e.clientX, e.clientY);
+    
+    animate();
+
+    console.log(projectile);
+});
