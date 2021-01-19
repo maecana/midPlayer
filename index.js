@@ -100,7 +100,7 @@ let enemies = [];
 // function for spawning enemies
 function spawnEnemies() {
     setInterval(() => {
-        let radius = 50;
+        let radius = Math.random() * (30 - 5) + 5;
         let x;
         let y;
         
@@ -127,6 +127,7 @@ function spawnEnemies() {
 
         let enemy = new Enemy(x, y, radius, color, velocity);
         enemies.push(enemy);
+
     }, 1000);
 }
 
@@ -142,11 +143,20 @@ function animate() {
         projectile.update();
     });
 
-    enemies.forEach(e => {
+    enemies.forEach((e, eIndex) => {
         e.update();
-    });
 
-    console.log('go');
+        projectiles.forEach((projectile, pIndex) => {
+            let dist = Math.hypot(
+                projectile.x - e.x,
+                projectile.y - e.y
+            );
+
+            if(dist - e.radius - projectile.radius < 1) {
+                enemies.splice(eIndex, 1); projectiles.splice(pIndex, 1);
+            }
+        });
+    });
 }
 
 // detect click event on the window
