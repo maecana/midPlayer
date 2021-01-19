@@ -31,6 +31,7 @@ class Player {
 }
 
 // Create a Projectile class
+// This is the player's bullet
 class Projectile {
     constructor(x, y, radius, color, velocity) {
         this.x = x;
@@ -96,15 +97,14 @@ player.draw();
 let projectiles = [];
 let enemies = [];
 
-
 // function for spawning enemies
 function spawnEnemies() {
     setInterval(() => {
         let radius = Math.random() * (30 - 5) + 5;
         let x;
         let y;
-        
-        if(Math.random() < 0.5) {
+
+        if (Math.random() < 0.5) {
             // if x is spawned from 0 left or 0 right
             x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius;
             // y should be anywhere in between
@@ -116,15 +116,19 @@ function spawnEnemies() {
 
         let color = 'green';
 
+        // compute for velocity of this object
+        // getting the angle
         let angle = Math.atan2(
             canvas.height / 2 - y,
             canvas.width / 2 - x);
 
+        // getting distance for x and y
         let velocity = {
             x: Math.cos(angle),
             y: Math.sin(angle),
         };
 
+        // initialize new Enemy object
         let enemy = new Enemy(x, y, radius, color, velocity);
         enemies.push(enemy);
 
@@ -135,25 +139,31 @@ function spawnEnemies() {
 function animate() {
     requestAnimationFrame(animate);
 
+    // clear canvas
     c.clearRect(0, 0, canvas.width, canvas.height);
+
     // invoke draw function
     player.draw();
-    
-    projectiles.forEach((projectile)=> {
+
+    // update projectile or bullet
+    projectiles.forEach((projectile) => {
         projectile.update();
     });
 
+    // enemies object drawing
     enemies.forEach((e, eIndex) => {
         e.update();
 
+        // computation for object collision
         projectiles.forEach((projectile, pIndex) => {
             let dist = Math.hypot(
                 projectile.x - e.x,
                 projectile.y - e.y
             );
 
-            if(dist - e.radius - projectile.radius < 1) {
-                enemies.splice(eIndex, 1); projectiles.splice(pIndex, 1);
+            if (dist - e.radius - projectile.radius < 1) {
+                enemies.splice(eIndex, 1);
+                projectiles.splice(pIndex, 1);
             }
         });
     });
@@ -175,7 +185,7 @@ addEventListener('click', (e) => {
         canvas.height / 2,
         3, 'red', velocity
     );
-    
+
     projectiles.push(projectile);
 });
 
