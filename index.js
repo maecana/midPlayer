@@ -162,8 +162,10 @@ function animate() {
             );
 
             if (dist - e.radius - projectile.radius < 1) {
-                enemies.splice(eIndex, 1);
-                projectiles.splice(pIndex, 1);
+                setTimeout(() => {
+                    enemies.splice(eIndex, 1);
+                    projectiles.splice(pIndex, 1);
+                }, 0);
             }
         });
     });
