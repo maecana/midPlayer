@@ -51,6 +51,7 @@ class Projectile {
     }
 
     update() {
+        this.draw();
         this.x = this.x + this.velocity.x;
         this.y = this.y + this.velocity.y;
     }
@@ -64,28 +65,44 @@ let player = new Player(x, y, 30, 'white');
 // invoke draw function
 player.draw();
 
-const projectile = new Projectile(
-    canvas.width / 2,
-    canvas.height / 2,
-    5, 'red',
-    {
-        x: 1,
-        y: 1,
-    }
-);
+let projectiles = [];
 
 // create looping animation
 function animate() {
     requestAnimationFrame(animate);
-    projectile.draw();
-    projectile.update();
+
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    // invoke draw function
+    player.draw();
+    
+    projectiles.forEach((projectile)=> {
+        projectile.update();
+    });
+
     console.log('go');
 }
 
 // detect click event on the window
 addEventListener('click', (e) => {
     console.log(e.clientX, e.clientY);
+
+    let angle = Math.atan2(
+        e.clientY - canvas.height / 2,
+        e.clientX - canvas.width / 2);
+
+    let velocity = {
+        x: Math.cos(angle),
+        y: Math.sin(angle),
+    }
+
+    let projectile = new Projectile(
+        canvas.width / 2,
+        canvas.height / 2,
+        3, 'red', velocity
+    );
     
+    projectiles.push(projectile);
+
     animate();
 
     console.log(projectile);
