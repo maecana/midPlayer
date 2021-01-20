@@ -9,6 +9,8 @@ const scoreEl = document.querySelector("#scoreEl");
 const modalEl = document.querySelector("#modalEl");
 // get start button
 const startBtn = document.querySelector("#startGameEl");
+// get modal score element
+const modalScoreEl = document.querySelector("#modalScoreEl");
 
 // set width and height of canvas to body size
 canvas.width = innerWidth;
@@ -217,10 +219,15 @@ function animate() {
             player.x - e.x
         )
 
+        // end game
         if ( (dist - player.radius - e.radius) < 1 ) {
             console.log("%c [ SpawnEnemies ] - Ending Game...",
             "font-size: 16px; font-bold: bold; color: violet;");
             cancelAnimationFrame(animationId);
+
+            // show restart modal
+            modalScoreEl.innerHTML = score;
+            modalEl.style.display = 'flex';
         }
 
         // object collision
