@@ -180,18 +180,25 @@ function animate() {
             cancelAnimationFrame(animationId);
         }
 
-        // computation for object collision
+        // object collision
         projectiles.forEach((projectile, pIndex) => {
             let dist = Math.hypot(
                 projectile.x - e.x,
                 projectile.y - e.y
             );
-
+            
             if (dist - e.radius - projectile.radius < 1) {
-                setTimeout(() => {
-                    enemies.splice(eIndex, 1);
-                    projectiles.splice(pIndex, 1);
-                }, 0);
+                if (e.radius - 10 > 10) {
+                    e.radius -= 10;
+                    setTimeout(() => {
+                        projectiles.splice(pIndex, 1);
+                    }, 0);
+                } else {
+                    setTimeout(() => {
+                        enemies.splice(eIndex, 1);
+                        projectiles.splice(pIndex, 1);
+                    }, 0);
+                }
             }
         });
     });
