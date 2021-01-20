@@ -139,7 +139,18 @@ player.draw();
 
 let projectiles = [];
 let enemies = [];
-let particles = []
+let particles = [];
+
+// initialize all vars and objs
+function init() {
+    player = new Player(x, y, 10, 'white');
+    projectiles = [];
+    enemies = [];
+    particles = [];
+
+    score = 0;
+    scoreEl.innerHTML = 0;
+}
 
 // function for spawning enemies
 function spawnEnemies() {
@@ -307,6 +318,7 @@ addEventListener('click', (e) => {
 
 startBtn.addEventListener('click', (e) => {
     modalEl.style.display = 'none';
+    init();
     animate();
     spawnEnemies();
 });
