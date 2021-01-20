@@ -90,7 +90,7 @@ const x = canvas.width / 2;
 const y = canvas.height / 2;
 
 // create player instance
-let player = new Player(x, y, 30, 'white');
+let player = new Player(x, y, 10, 'white');
 // invoke draw function
 player.draw();
 
@@ -204,14 +204,14 @@ addEventListener('click', (e) => {
         e.clientX - canvas.width / 2);
 
     let velocity = {
-        x: Math.cos(angle),
-        y: Math.sin(angle),
+        x: Math.cos(angle) * 4,
+        y: Math.sin(angle) * 4,
     }
 
     let projectile = new Projectile(
         canvas.width / 2,
         canvas.height / 2,
-        3, 'red', velocity
+        3, 'white', velocity
     );
 
     projectiles.push(projectile);
