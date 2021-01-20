@@ -3,6 +3,8 @@ const canvas = document.querySelector('canvas');
 // set context for canvas
 // specify as 2D
 const c = canvas.getContext('2d');
+// get score element
+const scoreEl = document.querySelector("#scoreEl");
 
 // set width and height of canvas to body size
 canvas.width = innerWidth;
@@ -172,6 +174,7 @@ function spawnEnemies() {
 }
 
 let animationId;
+let score = 0;
 
 // create looping animation
 function animate() {
@@ -241,6 +244,7 @@ function animate() {
                 }
 
                 if (e.radius - 10 > 5) {
+                    score += 100;
                     gsap.to(e, {
                         radius: e.radius - 10
                     });
@@ -248,11 +252,13 @@ function animate() {
                         projectiles.splice(pIndex, 1);
                     }, 0);
                 } else {
+                    score += 250;
                     setTimeout(() => {
                         enemies.splice(eIndex, 1);
                         projectiles.splice(pIndex, 1);
                     }, 0);
                 }
+                scoreEl.innerHTML = score;
             }
         });
     });
