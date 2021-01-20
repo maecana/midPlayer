@@ -114,7 +114,7 @@ function spawnEnemies() {
             x = Math.random() * canvas.width;
         }
 
-        let color = 'green';
+        let color = `hsl(${Math.random() * 360}, 50%, 50%)`;
 
         // compute for velocity of this object
         // getting the angle
