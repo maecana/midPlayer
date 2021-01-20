@@ -86,6 +86,41 @@ class Enemy {
     }
 }
 
+// Create a Particles class
+let friction = 0.99;
+class Particles {
+    constructor(x, y, radius, color, velocity) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.velocity = velocity;
+        this.alpha = 1;
+    }
+
+    // draw the prarticles as a circle
+    // set params as properties of circle
+    draw() {
+        c.save();
+        c.globalAlpha = this.alpha;
+        c.beginPath();
+        c.arc(this.x, this.y, this.radius,
+            0, Math.PI * 2, false);
+        c.fillStyle = this.color;
+        c.fill();
+        c.restore();
+    }
+
+    update() {
+        this.draw();
+        this.velocity.x *= friction;
+        this.velocity.y *= friction;
+        this.x = this.x + this.velocity.x;
+        this.y = this.y + this.velocity.y;
+        this.alpha -= 0.01;
+    }
+}
+
 const x = canvas.width / 2;
 const y = canvas.height / 2;
 
@@ -96,6 +131,7 @@ player.draw();
 
 let projectiles = [];
 let enemies = [];
+let particles = []
 
 // function for spawning enemies
 function spawnEnemies() {
@@ -142,7 +178,7 @@ function animate() {
     animationId = requestAnimationFrame(animate);
 
     // clear canvas
-    c.fillStyle = 'rgba(0, 0, 0, 0.1';
+    c.fillStyle = 'rgba(0, 0, 0, 0.1)';
     c.fillRect(0, 0, canvas.width, canvas.height);
 
     // invoke draw function
@@ -188,6 +224,22 @@ function animate() {
             );
 
             if (dist - e.radius - projectile.radius < 1) {
+                let particle_count = e.radius * 2;
+                for(let i = 0; i < particle_count; i++) {
+                    particles.push(
+                        new Particles(
+                            projectile.x,
+                            projectile.y,
+                            Math.random() * 2,
+                            e.color,
+                            {
+                                x: (Math.random() - 0.5) * (Math.random() * 6),
+                                y: (Math.random() - 0.5) * (Math.random() * 6)
+                            }
+                        )
+                    )
+                }
+
                 if (e.radius - 10 > 5) {
                     gsap.to(e, {
                         radius: e.radius - 10
@@ -203,6 +255,16 @@ function animate() {
                 }
             }
         });
+    });
+
+    // invoke update particles
+    particles.forEach((particle, partIndex) => {
+        if (particle.alpha <= 0) {
+            setTimeout(() => {
+                particles.splice(partIndex, 1);
+            }, 0);
+        }
+        particle.update();
     });
 }
 
