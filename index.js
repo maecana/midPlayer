@@ -5,6 +5,10 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 // get score element
 const scoreEl = document.querySelector("#scoreEl");
+// get modal element
+const modalEl = document.querySelector("#modalEl");
+// get start button
+const startBtn = document.querySelector("#startGameEl");
 
 // set width and height of canvas to body size
 canvas.width = innerWidth;
@@ -294,6 +298,8 @@ addEventListener('click', (e) => {
     projectiles.push(projectile);
 });
 
-
-animate();
-spawnEnemies();
+startBtn.addEventListener('click', (e) => {
+    modalEl.style.display = 'none';
+    animate();
+    spawnEnemies();
+});
