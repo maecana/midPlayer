@@ -148,8 +148,20 @@ function animate() {
     player.draw();
 
     // update projectile or bullet
-    projectiles.forEach((projectile) => {
+    projectiles.forEach((projectile, index) => {
         projectile.update();
+
+        // remove project off screen
+        if (
+            projectile.x + projectile.radius < 0 ||
+            projectile.x - projectile > canvas.width ||
+            projectile.y + projectile.radius < 0 ||
+            projectile.y - projectile.radius > canvas.height
+        ) {
+            setTimeout(() => {
+                projectiles.splice(projectile, 1);
+            }, 0);
+        }
     });
 
     // enemies object drawing
@@ -186,6 +198,7 @@ function animate() {
 
 // detect click event on the window
 addEventListener('click', (e) => {
+    console.log(projectiles);
     let angle = Math.atan2(
         e.clientY - canvas.height / 2,
         e.clientX - canvas.width / 2);
