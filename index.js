@@ -135,9 +135,11 @@ function spawnEnemies() {
     }, 1000);
 }
 
+let animationId;
+
 // create looping animation
 function animate() {
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
 
     // clear canvas
     c.clearRect(0, 0, canvas.width, canvas.height);
@@ -153,6 +155,17 @@ function animate() {
     // enemies object drawing
     enemies.forEach((e, eIndex) => {
         e.update();
+
+        const dist = Math.hypot(
+            player.y - e.y,
+            player.x - e.x
+        )
+
+        if ( (dist - player.radius - e.radius) < 1 ) {
+            console.log("%c [ SpawnEnemies ] - Ending Game...",
+            "font-size: 16px; font-bold: bold; color: violet;");
+            cancelAnimationFrame(animationId);
+        }
 
         // computation for object collision
         projectiles.forEach((projectile, pIndex) => {
