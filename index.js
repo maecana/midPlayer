@@ -186,10 +186,12 @@ function animate() {
                 projectile.x - e.x,
                 projectile.y - e.y
             );
-            
+
             if (dist - e.radius - projectile.radius < 1) {
-                if (e.radius - 10 > 10) {
-                    e.radius -= 10;
+                if (e.radius - 10 > 5) {
+                    gsap.to(e, {
+                        radius: e.radius - 10
+                    });
                     setTimeout(() => {
                         projectiles.splice(pIndex, 1);
                     }, 0);
