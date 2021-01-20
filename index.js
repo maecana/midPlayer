@@ -142,7 +142,8 @@ function animate() {
     animationId = requestAnimationFrame(animate);
 
     // clear canvas
-    c.clearRect(0, 0, canvas.width, canvas.height);
+    c.fillStyle = 'rgba(0, 0, 0, 0.1';
+    c.fillRect(0, 0, canvas.width, canvas.height);
 
     // invoke draw function
     player.draw();
@@ -198,7 +199,6 @@ function animate() {
 
 // detect click event on the window
 addEventListener('click', (e) => {
-    console.log(projectiles);
     let angle = Math.atan2(
         e.clientY - canvas.height / 2,
         e.clientX - canvas.width / 2);
