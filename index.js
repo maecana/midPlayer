@@ -287,7 +287,7 @@ function animate() {
 
     // invoke update particles
     particles.forEach((particle, partIndex) => {
-        if (particle.alpha <= 0) {
+        if (particle.alpha <= 0.1) {
             setTimeout(() => {
                 particles.splice(partIndex, 1);
             }, 0);
